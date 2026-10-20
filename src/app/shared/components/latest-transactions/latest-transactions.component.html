@@ -1,0 +1,136 @@
+<div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+    <!-- هدر با تیتر -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+        <h3 class="text-base font-semibold text-gray-800">
+            آخرین تراکنش‌ها
+        </h3>
+
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        تاریخ ثبت
+                    </th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        تاریخ تراکنش
+                    </th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        نوع
+                    </th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        حساب / شرکت
+                    </th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        از محل / در تعهد
+                    </th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        مبلغ
+                    </th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        وضعیت
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr class="hover:bg-gray-50 transition-colors" *ngFor="let tx of transactions">
+                    <!-- تاریخ ثبت -->
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                            {{ tx?.created | jalaliDate }}
+                        </div>
+                    </td>
+
+                    <!-- تاریخ تراکنش -->
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                            {{ tx?.date | jalaliDate }}
+                        </div>
+                    </td>
+
+                    <!-- نوع -->
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                            [class.bg-green-100]="tx?.type === 'deposit' || tx?.type === 'receive_doc'"
+                            [class.text-green-800]="tx?.type === 'deposit' || tx?.type === 'receive_doc'"
+                            [class.bg-red-100]="tx?.type === 'withdraw' || tx?.type === 'pay_doc'"
+                            [class.text-red-800]="tx?.type === 'withdraw' || tx?.type === 'pay_doc'"
+                            [class.bg-blue-100]="tx?.type === 'adjustment'"
+                            [class.text-blue-800]="tx?.type === 'adjustment'">
+                            {{
+                            tx?.type === 'deposit' ? 'واریز' :
+                            tx?.type === 'withdraw' ? 'برداشت' :
+                            tx?.type === 'receive_doc' ? 'سند دریافتی' :
+                            tx?.type === 'pay_doc' ? 'سند پرداختی' :
+                            'تعدیلات'
+                            }}
+                        </span>
+                    </td>
+
+
+                    <!-- حساب / شرکت -->
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">
+                            {{ tx?.account_title }}
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            {{ tx?.company_title }}
+                        </div>
+                    </td>
+
+
+                    <!-- از محل / در تعهد -->
+                    <td class="px-6 py-4">
+                        <div *ngIf="tx?.type === 'receive_doc' || tx?.type === 'pay_doc'"
+                            class="text-sm text-gray-900 max-w-xs truncate">
+                            <span *ngIf="tx?.type === 'receive_doc'">از محل: </span>
+                            <span *ngIf="tx?.type === 'pay_doc'">در تعهد: </span>
+                            {{ tx?.holder }}
+                        </div>
+                    </td>
+
+
+                    <!-- مبلغ (میلیون تومان) -->
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium" [class.text-green-600]="tx?.type === 'receive_doc'"
+                            [class.text-red-600]="tx?.type === 'pay_doc'">
+                            {{ +tx?.value | number:'1.0-0' }}
+                        </div>
+                    </td>
+
+                    <!-- وضعیت -->
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span *ngIf="tx?.type === 'receive_doc' || tx?.type === 'pay_doc' || tx?.type === 'adjustment'"
+                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" [ngClass]="{
+              'bg-green-100 text-green-800': 
+                  (tx?.type === 'receive_doc' || tx?.type === 'pay_doc') && tx?.status === 'registered' ||
+                  tx?.type === 'adjustment' && tx?.applyToBalance == 1,
+              'bg-red-100 text-red-800': 
+                  (tx?.type === 'receive_doc' || tx?.type === 'pay_doc') && tx?.status === 'past_due',
+              'bg-yellow-100 text-yellow-800': 
+                  (tx?.type === 'receive_doc' || tx?.type === 'pay_doc') && tx?.status === 'due_today',
+              'bg-gray-100 text-gray-800': 
+                  tx?.type === 'adjustment' && tx?.applyToBalance != 1
+          }">
+                            <span *ngIf="tx?.type === 'receive_doc' || tx?.type === 'pay_doc'">
+                                {{
+                                tx?.status === 'registered' ? 'ثبت شده' :
+                                tx?.status === 'past_due' ? 'سررسید گذشته' :
+                                tx?.status === 'due_today' ? 'سررسید امروز' :
+                                'در انتظار'
+                                }}
+                            </span>
+                            <span *ngIf="tx?.type === 'adjustment'">
+                                {{ tx?.applyToBalance == 1 ? 'به موجودی اضافه شد' : 'اعمال نشده' }}
+                            </span>
+                        </span>
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>

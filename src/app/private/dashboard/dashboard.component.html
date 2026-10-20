@@ -1,0 +1,102 @@
+<main class="min-h-screen bg-slate-50 text-slate-800">
+    <div class="mx-auto max-w-3xl space-y-5 p-4 sm:p-6">
+
+        <!-- هدر + دکمه ثبت -->
+        <header
+            class="flex flex-col items-center gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:flex-row sm:justify-between">
+            <div class="text-center sm:text-right">
+                <p class="text-sm text-slate-500">{{ todayDate() }}</p>
+                <p class="mt-1 text-4xl font-bold tabular-nums">
+                    {{ fa(now().getHours().toString().padStart(2, '0')) }}:{{
+                    fa(now().getMinutes().toString().padStart(2, '0')) }}
+                </p>
+            </div>
+            <button (click)="register()"
+                class="w-full rounded-xl bg-indigo-600 px-8 py-4 text-lg font-semibold text-white shadow transition hover:bg-indigo-700 active:scale-95 sm:w-auto">
+                ثبت ساعت
+            </button>
+        </header>
+
+        <!-- کارت‌های آمار -->
+        <section class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                <p class="text-sm text-slate-500">حضور خالص امروز</p>
+                <p class="mt-2 text-2xl font-bold">{{ fa(dur(netToday())) }}</p>
+                <p class="mt-1 text-xs text-slate-400">از ۷ ساعت و ۳۰ دقیقه</p>
+            </div>
+
+            <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                <p class="text-sm text-slate-500">{{ exitInfo().label }}</p>
+                @if (!exitInfo().done) {
+                <p class="mt-2 text-2xl font-bold tabular-nums text-indigo-600">{{ fa(exitInfo().time) }}</p>
+                } @else {
+                <p class="mt-2 text-2xl font-bold text-emerald-600">✓</p>
+                }
+                <p class="mt-1 text-xs text-slate-400">با احتساب ۷:۳۰ حضور خالص</p>
+            </div>
+
+            <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                <p class="text-sm text-slate-500">
+                    {{ monthBalance().balance >= 0 ? 'اضافه‌کار ماه جاری' : 'کسری ماه جاری' }}
+                </p>
+                <p class="mt-2 text-2xl font-bold" [class.text-emerald-600]="monthBalance().balance >= 0"
+                    [class.text-rose-600]="monthBalance().balance < 0">
+                    {{ fa(dur(monthBalance().balance)) }}
+                </p>
+                <p class="mt-1 text-xs text-slate-400">در {{ fa(monthBalance().days) }} روز ثبت‌شده</p>
+            </div>
+        </section>
+
+        <!-- ترددهای امروز -->
+        <section class="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+            <h2 class="border-b border-slate-100 px-5 py-4 font-semibold">ترددهای امروز</h2>
+
+            @if (rows().length === 0) {
+            <p class="px-5 py-10 text-center text-sm text-slate-400">هنوز تردّدی ثبت نشده است.</p>
+            } @else {
+            <ul class="divide-y divide-slate-100">
+                @for (r of rows(); track r.id) {
+                <li class="px-5 py-3">
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="rounded-full px-3 py-1 text-xs font-medium"
+                                [class]="r.isIn ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'">
+                                {{ r.isIn ? 'ورود' : 'خروج' }}
+                            </span>
+
+                            @if (editingId() === r.id) {
+                            <input type="time" [value]="editTime()" (input)="editTime.set($any($event.target).value)"
+                                class="rounded-lg border border-slate-300 px-2 py-1 tabular-nums focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+                            } @else {
+                            <span class="text-lg font-semibold tabular-nums">{{ fa(r.time) }}</span>
+                            }
+                        </div>
+
+                        <div class="flex items-center gap-1 text-sm">
+                            @if (editingId() === r.id) {
+                            <button (click)="saveEdit()"
+                                class="rounded-lg px-3 py-1 text-emerald-700 hover:bg-emerald-50">ذخیره</button>
+                            <button (click)="cancelEdit()"
+                                class="rounded-lg px-3 py-1 text-slate-500 hover:bg-slate-100">انصراف</button>
+                            } @else {
+                            <button (click)="startEdit(r)"
+                                class="rounded-lg px-3 py-1 text-indigo-600 hover:bg-indigo-50">ویرایش</button>
+                            <button (click)="remove(r.id)"
+                                class="rounded-lg px-3 py-1 text-rose-600 hover:bg-rose-50">حذف</button>
+                            }
+                        </div>
+                    </div>
+
+                    @if (!r.isIn && r.gap !== null) {
+                    <p class="mt-1 pr-1 text-xs text-slate-500">
+                        {{ r.live ? 'مدت بیرون بودن تا الان:' : 'تا ورود بعدی:' }}
+                        <span class="font-medium">{{ fa(dur(r.gap)) }}</span>
+                    </p>
+                    }
+                </li>
+                }
+            </ul>
+            }
+        </section>
+    </div>
+</main>

@@ -1,0 +1,58 @@
+aside {
+  background: linear-gradient(180deg, #042041 0%, #052348 100%);
+}
+.menu-parent,
+.submenu-parent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.arrow-icon {
+  flex: 0 0 auto;
+  transition: transform 0.2s ease;
+}
+
+.arrow-icon.open {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  padding-right: 16px;
+  margin: 15px 0;
+  list-style: none;
+}
+
+.account-submenu {
+  padding-right: 20px;
+}
+
+.submenu a {
+  display: block;
+  font-size: 13px;
+}
+.submenu-parent.active-company {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.submenu-parent.active-company .arrow-icon {
+  color: #2563eb;
+}
+.submenu-parent.active-company {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.active-account {
+  font-weight: 600;
+  border-right: 3px solid #467cf0;
+  padding-right: 5px;
+}

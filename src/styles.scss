@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-UltraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-DemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSansX";
+  src: url("/font/sans/IRANSansXFaNum-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+* {
+  font-family: IRANSansX !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  direction: rtl;
+}
+* {
+  font-family: IRANSansX, serif;
+  letter-spacing: normal !important;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+router-outlet + * {
+  display: block; /* Change display inline to block */
+  animation: fade 0.5s;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2d87f3;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2d87f3;
+}
+
+.mat-elevation-z8 {
+  * {
+    white-space: nowrap;
+  }
+}
+.hide-scrolling::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrolling {
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.form-box__field {
+  position: relative;
+  width: 100%;
+  height: 48px;
+}
+
+.form-box__input {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  outline: 0;
+  border: 1px solid #ddd;
+  padding: 0 12px 0;
+  transition: all 0.3s ease;
+  background: white;
+  font-size: 14px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.form-box__input::placeholder {
+  opacity: 0;
+  color: transparent;
+}
+
+.form-box__label {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: white;
+  padding: 0 4px;
+}
+
+/* وقتی اینپوت فوکوس شد یا مقداری دارد */
+.form-box__input:focus + .form-box__label,
+.payment-page__form-box
+  .form-box__input:not(:placeholder-shown)
+  + .form-box__label {
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--primary-color, #0066cc);
+}
+
+.form-box__input:focus {
+  border-color: var(--primary-color, #0066cc);
+}
+
+/* خطا */
+.form-box__input.error {
+  border-color: var(--red);
+}
+
+.form-box__input.error + .form-box__label {
+  color: var(--red);
+}
+
+/* autofill */
+.form-box__input:-webkit-autofill,
+.form-box__input:-webkit-autofill:hover,
+.form-box__input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  background-color: #fff !important;
+}
+/* استایل مخصوص textarea */
+.form-box__field--textarea {
+  height: auto; /* لغو ارتفاع ثابت */
+}
+
+.form-box__field--textarea .form-box__input {
+  height: auto;
+  min-height: 90px; /* حداقل ارتفاع */
+  padding: 12px 12px 8px;
+  line-height: 1.6;
+  resize: vertical; /* کاربر بتواند ارتفاع را تغییر دهد (دلخواه) */
+}
+
+/* تنظیم موقعیت لیبل برای textarea */
+.form-box__field--textarea .form-box__label {
+  top: 14px; /* هم‌تراز با padding بالا */
+  transform: translateY(0);
+}
+
+.form-box__field--textarea .form-box__input:focus + .form-box__label,
+.form-box__field--textarea
+  .form-box__input:not(:placeholder-shown)
+  + .form-box__label {
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--primary-color, #0066cc);
+}
+/* استایل‌های اضافی برای فیلد پیوست */
+.form-box__field--file button {
+  text-align: right;
+  cursor: pointer;
+}
+
+/* انیمیشن برای نمایش فایل انتخاب شده */
+.file-preview-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.file-preview-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity -3s,
+    transform -3s;
+}
+
+/* CUSTOM CHECKBOX */
+.checkbox-custom {
+  @apply relative w-5 h-5 border-2 border-gray-300 rounded transition-all duration-200;
+}
+
+.checkbox-custom::after {
+  @apply content-[''] absolute hidden left-1/2 top-1/2 w-2 h-3 border-white border-r-2 border-b-2 
+           -translate-x-1/2 -translate-y-1/2 rotate-45;
+}
+
+.checkbox-label input:checked ~ .checkbox-custom {
+  @apply bg-indigo-600 border-indigo-600;
+}
+
+.checkbox-label input:checked ~ .checkbox-custom::after {
+  @apply block;
+}
+
+.checkbox-label:hover .checkbox-custom {
+  @apply border-indigo-400;
+}
+
+.checkbox-label input:focus ~ .checkbox-custom {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  @apply border-indigo-600;
+}
+
+.export-mode .hide-export {
+  display: none !important;
+}

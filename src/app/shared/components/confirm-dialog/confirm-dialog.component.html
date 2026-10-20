@@ -1,0 +1,19 @@
+<section class="p-6 w-full max-w-sm mx-auto flex flex-col items-center gap-6 bg-white rounded-2xl shadow-sm">
+
+    <h1 class="text-lg font-medium text-gray-800 text-center">
+        آیا ادامه میدهید؟
+    </h1>
+
+    <section class="flex gap-3">
+        <button class="px-5 py-2 rounded-lg bg-gray-900 text-white text-sm 
+                   hover:bg-gray-800 transition-all duration-200" (click)="setResponse(true)">
+            بله
+        </button>
+
+        <button class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 text-sm
+                   hover:bg-gray-100 transition-all duration-200" (click)="setResponse(false)">
+            خیر
+        </button>
+    </section>
+
+</section>

@@ -1,0 +1,9 @@
+@media print {
+  #mainLayout {
+    flex-direction: column;
+    height: auto !important;
+  }
+  #appSidebar {
+    display: none;
+  }
+}

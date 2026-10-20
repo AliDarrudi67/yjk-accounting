@@ -1,0 +1,135 @@
+<div class="p-6 bg-white rounded-xl shadow-xl mx-auto w-full">
+
+    <!-- سربرگ -->
+    <div class="flex items-center gap-2 mb-6">
+        <div class="h-5 w-1 bg-indigo-500 rounded-full"></div>
+        <h3 class="text-lg font-medium text-gray-800 !m-0 !font-bold !text-[22px]">
+            ادمین جدید
+        </h3>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-8">
+
+        <!-- نام کامل -->
+        <div class="form-box__field__parent mb-4">
+            <div class="form-box__field relative">
+
+                <input type="text" formControlName="fullName"
+                    class="form-box__input peer w-full px-3 py-3 bg-transparent border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition"
+                    placeholder="نام کامل" autocomplete="off" />
+
+                <label
+                    class="form-box__label absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 bg-white px-1 transition-all
+                    peer-focus:top-0 peer-focus:text-xs peer-focus:text-indigo-600 peer-focus:right-2
+                    peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400
+                    peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-indigo-600">
+                    نام کامل
+                </label>
+
+                <p *ngIf="form.get('fullName')?.touched && form.get('fullName')?.hasError('required')"
+                    class="text-xs text-red-500 mt-1">
+                    وارد کردن نام کامل الزامی است
+                </p>
+
+            </div>
+        </div>
+
+        <!-- نام کاربری -->
+        <div class="form-box__field__parent mb-4">
+            <div class="form-box__field relative">
+
+                <input type="text" formControlName="username"
+                    class="form-box__input peer w-full px-3 py-3 bg-transparent border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition"
+                    placeholder="نام کاربری" autocomplete="off" />
+
+                <label
+                    class="form-box__label absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 bg-white px-1 transition-all
+                    peer-focus:top-0 peer-focus:text-xs peer-focus:text-indigo-600 peer-focus:right-2
+                    peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400
+                    peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-indigo-600">
+                    نام کاربری
+                </label>
+
+                <p *ngIf="form.get('username')?.touched && form.get('username')?.hasError('required')"
+                    class="text-xs text-red-500 mt-1">
+                    وارد کردن نام کاربری الزامی است
+                </p>
+
+            </div>
+        </div>
+
+        <!-- رمز عبور -->
+        <div class="form-box__field__parent mb-4">
+            <div class="form-box__field relative">
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                    class="form-box__input peer w-full pl-10 pr-3 py-3 bg-transparent border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition"
+                    placeholder="رمز عبور" />
+
+                <label
+                    class="form-box__label absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 bg-white px-1 transition-all
+      peer-focus:top-0 peer-focus:text-xs peer-focus:text-indigo-600 peer-focus:right-2
+      peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-400
+      peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-indigo-600">
+                    رمز عبور
+                </label>
+
+                <button type="button" (click)="togglePasswordVisibility()"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition"
+                    aria-label="نمایش یا مخفی کردن رمز عبور">
+                    <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.644C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.437 0 .644C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+
+                    <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m3 3 18 18" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10.477 6.255A9.956 9.956 0 0 1 12 6c4.638 0 8.573 3.007 9.963 7.178.07.207.07.437 0 .644a10.966 10.966 0 0 1-4.017 5.143M6.228 6.228A10.97 10.97 0 0 0 2.037 11.68a1.012 1.012 0 0 0 0 .644C3.423 16.49 7.36 19.5 12 19.5c1.617 0 3.157-.365 4.534-1.02M9.88 9.88a3 3 0 1 0 4.243 4.243" />
+                    </svg>
+                </button>
+
+                <p *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')"
+                    class="text-xs text-red-500 mt-1">
+                    وارد کردن رمز عبور الزامی است
+                </p>
+            </div>
+        </div>
+
+
+        <!-- نقش -->
+        <div class="form-box__field__parent mb-4">
+            <div class="form-box__field relative">
+
+                <select formControlName="role"
+                    class="w-full px-3 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition">
+
+                    <option value="">انتخاب نقش</option>
+                    <option value="admin">ادمین</option>
+                    <option value="operator">اپراتور</option>
+
+                </select>
+
+            </div>
+        </div>
+
+        <!-- دکمه‌ها -->
+        <div class="flex justify-between gap-3 pt-6" dir="rtl">
+
+            <button type="submit" [disabled]="form.invalid"
+                class="px-6 py-2 rounded-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-sm">
+                ذخیره
+            </button>
+
+            <button type="button" (click)="onCancel()"
+                class="px-5 py-2 rounded-lg text-sm font-medium text-gray-600 border border-gray-300 hover:bg-gray-50 transition">
+                انصراف
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

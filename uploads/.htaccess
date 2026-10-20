@@ -1,0 +1,119 @@
+RewriteEngine On
+
+# auth rewrites
+RewriteRule ^tokenValidate api/auth/tokenValidate.php [L]
+RewriteRule ^login api/auth/login.php [L]
+
+# orders rewrites
+RewriteRule ^ordersAdd api/orders/add.php [L]
+RewriteRule ^checkInventory api/orders/checkInventory.php [L]
+RewriteRule ^ordersList api/orders/list.php [L]
+RewriteRule ^ordersDelete api/orders/delete.php [L]
+RewriteRule ^selectOrders/(.*) api/orders/select.php?id=$1 [L]
+RewriteRule ^ordersRedirect api/orders/redirect.php [L]
+
+# orders_products rewrites
+RewriteRule ^ordersDetailsAdd api/ordersDetails/add.php [L]
+RewriteRule ^ordersDetailsList/(.*) api/ordersDetails/list.php?id=$1 [L]
+RewriteRule ^sendOrder api/ordersDetails/sendOrder.php [L]
+
+# product rewrites
+RewriteRule ^changeProductPublish api/product/changeProductPublish.php [L]
+RewriteRule ^productAdd api/product/add.php [L]
+RewriteRule ^productRelatives/(.*)/(.*) api/product/relativeProducts.php?productId=$1&categoryId=$2 [L]
+RewriteRule ^productList/(.*) api/product/list.php?limit=$1 [L]
+RewriteRule ^productList api/product/list.php [L]
+RewriteRule ^productDelete api/product/delete.php [L]
+RewriteRule ^selectProduct/(.*) api/product/select.php?id=$1 [L]
+RewriteRule ^productEdit/(.*) api/product/edit.php?id=$1 [L]
+RewriteRule ^categoryProducts/(.*)/(.*)/(.*)/(.*)/(.*) api/product/categoryProducts.php?categoryId=$1&pageNumber=$2&pageSize=$3&sortType=$4&keyword=$5 [L]
+RewriteRule ^resetProductsPrice api/product/resetProductsPrice.php [L]
+
+# category rewrites
+RewriteRule ^categoryList api/category/list.php [L]
+RewriteRule ^categoryAdd api/category/add.php [L]
+RewriteRule ^categoryDelete api/category/delete.php [L]
+RewriteRule ^selectCategory/(.*) api/category/select.php?id=$1 [L]
+RewriteRule ^categoryEdit/(.*) api/category/edit.php?id=$1 [L]
+
+# banner rewrites
+RewriteRule ^bannerAdd api/banner/add.php [L]
+RewriteRule ^bannerList api/banner/list.php [L]
+RewriteRule ^bannerDelete api/banner/delete.php [L]
+RewriteRule ^selectBanner/(.*) api/banner/select.php?id=$1 [L]
+RewriteRule ^bannerEdit/(.*) api/banner/edit.php?id=$1 [L]
+
+# brand rewrites
+RewriteRule ^brandAdd api/brand/add.php [L]
+RewriteRule ^brandList api/brand/list.php [L]
+RewriteRule ^brandDelete api/brand/delete.php [L]
+RewriteRule ^selectBrand/(.*) api/brand/select.php?id=$1 [L]
+RewriteRule ^brandEdit/(.*) api/brand/edit.php?id=$1 [L]
+
+# comment rewrites
+RewriteRule ^commentAdd api/comment/add.php [L]
+RewriteRule ^commentList/(.*) api/comment/list.php?productId=$1 [L]
+RewriteRule ^commentList api/comment/list.php [L]
+RewriteRule ^commentDelete api/comment/delete.php [L]
+RewriteRule ^commentEdit/(.*) api/comment/edit.php?id=$1 [L]
+
+# contact rewrites
+RewriteRule ^contactAdd api/contact/add.php [L]
+RewriteRule ^contactList api/contact/list.php [L]
+RewriteRule ^contactDelete api/contact/delete.php [L]
+
+# feature rewrites
+RewriteRule ^featureAdd api/feature/add.php [L]
+RewriteRule ^featureList api/feature/list.php [L]
+RewriteRule ^featureDelete api/feature/delete.php [L]
+RewriteRule ^selectFeature/(.*) api/feature/select.php?id=$1 [L]
+RewriteRule ^featureEdit/(.*) api/feature/edit.php?id=$1 [L]
+
+# gallery rewrites
+RewriteRule ^galleryAdd api/gallery/add.php [L]
+RewriteRule ^galleryList/(.*) api/gallery/list.php?productId=$1 [L]
+RewriteRule ^galleryList api/gallery/list.php [L]
+RewriteRule ^galleryDelete api/gallery/delete.php [L]
+RewriteRule ^galleryEdit/(.*) api/gallery/edit.php?id=$1 [L]
+
+# productFeature rewrites
+RewriteRule ^productFeatureAdd api/productFeature/add.php [L]
+RewriteRule ^productFeatureList/(.*) api/productFeature/list.php?productId=$1 [L]
+RewriteRule ^productFeatureList api/productFeature/list.php [L]
+RewriteRule ^productFeatureDelete api/productFeature/delete.php [L]
+RewriteRule ^productFeatureEdit/(.*) api/productFeature/edit.php?id=$1 [L]
+
+# slider rewrites
+RewriteRule ^sliderAdd api/slider/add.php [L]
+RewriteRule ^sliderList api/slider/list.php [L]
+RewriteRule ^sliderDelete api/slider/delete.php [L]
+RewriteRule ^selectSlider/(.*) api/slider/select.php?id=$1 [L]
+RewriteRule ^sliderEdit/(.*) api/slider/edit.php?id=$1 [L]
+
+# user rewrites
+RewriteRule ^userList api/user/list.php [L]
+
+# setting rewrites
+RewriteRule ^setting/list api/setting/list.php [L]
+RewriteRule ^setting/edit api/setting/edit.php [L]
+
+# about rewrites
+RewriteRule ^about/list api/about/list.php [L]
+RewriteRule ^about/edit api/about/edit.php [L]
+
+# customer rewrites
+RewriteRule ^register/(.*) api/customer/register.php?step=$1 [L]
+RewriteRule ^changePassword/(.*) api/customer/changePassword.php?step=$1 [L]
+RewriteRule ^userLogin/(.*) api/customer/login.php?method=$1 [L]
+RewriteRule ^profile api/customer/profile.php [L]
+
+# change password rewrites
+RewriteRule ^changePassword api/token/changePassword.php [L]
+
+# If an existing asset or directory is requested go to it as it is
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule ^ - [L]
+
+# If the requested resource doesn't exist, use index.html
+RewriteRule ^ /index.html

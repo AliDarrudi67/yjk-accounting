@@ -1,0 +1,17 @@
+<aside [@sidebarState]="state" class="h-screen  text-white flex flex-col overflow-hidden shadow-xl"
+    [style.width]="state === 'expanded' ? '16rem' : '4.5rem'">
+
+    <!-- دکمه همبرگر و لوگو -->
+    <div class="flex items-center h-16 px-4 border-b border-gray-800 mt-[6px]">
+        <button (click)="toggle()" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+        <a routerLink="/" *ngIf="state === 'expanded'"
+            class="mr-3 text-lg font-semibold tracking-tight text-indigo-300 transition-opacity duration-200">
+            های حساب
+        </a>
+    </div>
+
+</aside>

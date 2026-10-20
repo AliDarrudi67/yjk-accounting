@@ -1,0 +1,10 @@
+<div class="flex h-screen " id="mainLayout" dir="rtl">
+    <!-- سایدبار -->
+    <app-sidebar (toggleEvent)="onSidebarToggle($event)" (logoutEvent)="handleLogout()" id="appSidebar"></app-sidebar>
+
+    <!-- محتوای اصلی -->
+    <main class="flex-1 overflow-y-auto transition-all duration-300">
+        <app-header></app-header>
+        <router-outlet></router-outlet>
+    </main>
+</div>

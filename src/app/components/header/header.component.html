@@ -1,0 +1,155 @@
+<!-- هدر داشبورد -->
+<header class="sticky top-0 z-10 border-b border-gray-200 bg-white">
+    <div class="flex items-center justify-between px-6 py-3">
+
+        <!-- سمت چپ: عنوان صفحه -->
+        <div class="flex items-center gap-4">
+            <!-- تاریخ امروز -->
+            <div class="flex items-center gap-2 text-gray-700">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <!-- تاریخ -->
+                <app-jalali-datepicker (ngModelChange)="onDateChange($event)"
+                    [(ngModel)]="todayDate"></app-jalali-datepicker>
+            </div>
+        </div>
+
+        <!-- سمت راست: آیکن‌ها -->
+        <div class="flex items-center gap-4">
+
+            <!-- آیکن نوتیفیکیشن -->
+            <div class="relative">
+                <button (click)="toggleNotifications()"
+                    class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+
+                    <!-- Badge نوتیفیکیشن -->
+                    <span *ngIf="todayDueDocuments.length > 0"
+                        class="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                        {{ todayDueDocuments.length > 9 ? '9+' : todayDueDocuments.length }}
+                    </span>
+                </button>
+
+                <!-- دراپ‌داون نوتیفیکیشن -->
+                <div *ngIf="isNotificationsOpen"
+                    class="absolute left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
+
+                    <div class="max-h-96 overflow-y-auto">
+                        <!-- لیست نوتیفیکیشن‌ها -->
+                        <div *ngFor="let item of todayDueDocuments"
+                            class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                            <a [routerLink]="'/company/'+item?.accountCompany+'/account/'+item?.accountId">
+                                <div class="flex items-center gap-3 justify-center">
+                                    <div *ngIf="item.type=='receive_doc'">
+                                        <svg fill="none" stroke="#10b981" viewBox="0 0 24 24" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div *ngIf="item.type=='pay_doc'">
+                                        <svg fill="none" stroke="#ef4444" viewBox="0 0 24 24" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-gray-900">شرکت: {{ item.companyTitle }}</p>
+                                        <p class="text-sm font-medium text-gray-900">حساب: {{ item.accountTitle }}</p>
+                                        <p class="text-sm font-medium text-gray-900">نوع سند: {{
+                                            item.type=='receive_doc'?'سند دریافتی':'سند پرداختی' }}</p>
+                                        <p class="text-xs text-gray-600 mt-1">{{ item.description }}</p>
+                                        <button type="button"
+                                            class="bg-blue-600 text-white px-3 py-1.5 rounded mt-2 hover:bg-blue-700 text-sm"
+                                            (click)="viewDocument($event, item)">
+                                            مشاهده تراکنش
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- اگر نوتیفیکیشنی وجود نداشت -->
+                        <div *ngIf="todayDueDocuments.length === 0" class="p-8 text-center text-gray-500">
+                            <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <p>هیچ نوتیفیکیشنی وجود ندارد</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- آیکن کاربر با دراپ‌داون -->
+            <div class="relative">
+                <button (click)="toggleUserMenu()"
+                    class="flex items-center gap-3 p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                    <!-- آواتار کاربر -->
+                    <div class="relative">
+                        <div
+                            class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+                            {{ adminInfo?.admin?.fullName?.slice(0, 1) }}
+                        </div>
+                        <div
+                            class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white">
+                        </div>
+                    </div>
+
+                    <!-- نام کاربر (در حالت دسکتاپ) -->
+                    <div class="hidden md:block text-right">
+                        <p class="text-sm font-medium text-gray-900">{{ adminInfo?.admin?.fullName }}</p>
+                        <p class="text-xs text-gray-600">{{ adminInfo?.admin?.role=='operator'?'اپراتور':'مدیر' }}</p>
+                    </div>
+
+                    <!-- فلش رو به پایین -->
+                    <svg class="w-4 h-4 text-gray-500 transition-transform duration-200"
+                        [class.rotate-180]="isUserMenuOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- دراپ‌داون منوی کاربر -->
+                <div *ngIf="isUserMenuOpen"
+                    class="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
+                    <!-- اطلاعات کاربر -->
+                    <div class="p-4 border-b border-gray-100">
+                        <p class="font-semibold text-gray-900">{{ adminInfo?.admin?.fullName }}</p>
+                        <p class="text-sm text-gray-600">{{ adminInfo?.admin?.role=='operator'?'اپراتور':'مدیر' }}</p>
+                    </div>
+
+                    <!-- آیتم‌های منو -->
+                    <div class="py-2">
+                        <a *ngFor="let item of userMenuItems" [routerLink]="item.route"
+                            class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                            (click)="isUserMenuOpen = false">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    [attr.d]="item.icon" />
+                            </svg>
+                            <span>{{ item.label }}</span>
+                        </a>
+                    </div>
+
+                    <!-- دکمه خروج -->
+                    <div class="p-3 border-t border-gray-100">
+                        <button (click)="logout()"
+                            class="flex items-center justify-center gap-2 w-full py-2 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span>خروج از حساب</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
